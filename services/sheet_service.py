@@ -1,9 +1,8 @@
 import pandas as pd
 
-
 def read_excel_file(file_path):
     """
-    Reads an Excel file and returns recipient data as {"name": [...], "email": [...]}.
+    Reads an Excel file and returns recipient data as {"Name": [...], "Email": [...]}.
     Raises ValueError on missing columns, empty data, or malformed rows.
     """
     try:
@@ -29,5 +28,11 @@ def read_excel_file(file_path):
 
     df["name"] = df["name"].astype(str).str.strip()
     df["email"] = df["email"].astype(str).str.strip()
-
-    return {"name": df["name"].tolist(), "email": df["email"].tolist()}
+    # Return a plain dictionary so callers can use xl_data["Name"] and
+    # xl_data["Email"] directly.
+  
+    return {
+        "Name": df["name"].tolist(),
+        "Email": df["email"].tolist(),
+        
+    }

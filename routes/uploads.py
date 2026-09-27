@@ -4,6 +4,7 @@ from flask_jwt_extended import jwt_required
 
 from controllers.file_controller import FileController
 from services.file_service import FileService
+from services.sheet_service import read_excel_file
 
 
 routes_bp = Blueprint("upload", __name__)
@@ -33,11 +34,13 @@ def upload_sheet():
         return jsonify({"error": "No selected file"}), 400
 
     response, status_code = file_controller.userList_file(file)
-    return jsonify(response), status_code
+    if status_code==201:
+        response=read_excel_file("./uploads/sheets/recipients.xlsx")
+        return jsonify(response), 201
 
 
 @routes_bp.route("/cordinates", methods=["POST"])
-@jwt_required()
+# @jwt_required()
 def upload_cordinates():
   
     cordinates = request.get_json(silent=True) or {}
@@ -53,6 +56,7 @@ def start_sending():
     data = request.get_json(silent=True) or {}
     body = data.get("body")
     subject = data.get("subject")
+  
     response, status_code = file_controller.start_sending(body, subject)
     return jsonify(response), status_code
 

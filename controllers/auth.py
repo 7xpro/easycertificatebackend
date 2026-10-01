@@ -6,6 +6,7 @@ from flask_jwt_extended import create_access_token
 from models.user import User
 
 
+
 def register_user(username, email, password):
 	if not username or not email or not password:
 		return {"message": "Username, email, and password are required"}, 400

@@ -16,9 +16,10 @@ def register():
     )
     return jsonify(response), status_code
 
-
+    
 @auth_bp.route("/login", methods=["POST"])
 def login():
     data = request.get_json(silent=True) or {}
+    print(data)
     response, status_code = login_user(data.get("email"), data.get("password"))
     return jsonify(response), status_code

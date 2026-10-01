@@ -11,7 +11,7 @@ routes_bp = Blueprint("upload", __name__)
 file_controller = FileController(FileService())
 
 @routes_bp.route("/template", methods=["POST"])
-# @jwt_required()
+@jwt_required()
 def upload_template():
     if "file" not in request.files:
         return jsonify({"error": "No file found"}), 400
@@ -24,7 +24,7 @@ def upload_template():
 
 
 @routes_bp.route("/sheet", methods=["POST"])
-# @jwt_required()
+@jwt_required()
 def upload_sheet():
     if "file" not in request.files:
         return jsonify({"error": "No file found"}), 400
@@ -40,7 +40,7 @@ def upload_sheet():
 
 
 @routes_bp.route("/cordinates", methods=["POST"])
-# @jwt_required()
+@jwt_required()
 def upload_cordinates():
   
     cordinates = request.get_json(silent=True) or {}
@@ -51,7 +51,7 @@ def upload_cordinates():
 
 
 @routes_bp.route("/test", methods=["POST"])
-# @jwt_required()
+@jwt_required()
 def start_sending():
     data = request.get_json(silent=True) or {}
     body = data.get("body")

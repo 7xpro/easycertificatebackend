@@ -8,6 +8,8 @@ from flask_jwt_extended import JWTManager
 from routes.auth import auth_bp
 from routes.user import user_bp
 from routes.uploads import routes_bp
+from datetime import timedelta
+
 
 
 
@@ -17,7 +19,7 @@ app.config.from_object(DevelopmentConfig)
 CORS(app)
 db.init_app(app)
 jwt = JWTManager(app)
-
+app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(minutes=30)
 app.register_blueprint(auth_bp, url_prefix='/auth')
 app.register_blueprint(user_bp, url_prefix='/user')
 app.register_blueprint(routes_bp, url_prefix='/upload')

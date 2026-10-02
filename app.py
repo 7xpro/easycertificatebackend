@@ -23,6 +23,9 @@ app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(minutes=30)
 app.register_blueprint(auth_bp, url_prefix='/auth')
 app.register_blueprint(user_bp, url_prefix='/user')
 app.register_blueprint(routes_bp, url_prefix='/upload')
+@app.route("/health")
+def health():
+    return {"status": "ok"}, 200
 with app.app_context():
     try:
         db.session.execute(text("SELECT 1"))

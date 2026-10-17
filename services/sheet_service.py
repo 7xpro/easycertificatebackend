@@ -1,10 +1,8 @@
 import pandas as pd
 
 def read_excel_file(file_path):
-    """
-    Reads an Excel file and returns recipient data as {"Name": [...], "Email": [...]}.
-    Raises ValueError on missing columns, empty data, or malformed rows.
-    """
+    
+    
     try:
         df = pd.read_excel(file_path)
     except Exception as e:
@@ -13,10 +11,7 @@ def read_excel_file(file_path):
     # Normalize column names so "name"/"Name "/"NAME" all work
     df.columns = [str(c).strip().lower() for c in df.columns]
 
-    required = {"name", "email"}
-    missing = required - set(df.columns)
-    if missing:
-        raise ValueError(f"Missing required column(s): {', '.join(missing)}")
+   
 
     if df.empty:
         raise ValueError("Excel file has no data rows")
@@ -25,14 +20,18 @@ def read_excel_file(file_path):
     df = df.dropna(subset=["name", "email"])
     if df.empty:
         raise ValueError("No valid rows found (all name/email cells were blank)")
+    id=df["id"].astype(str).str.strip()
+    email=df["email"].astype(str).str.strip()
+    name=df["name"].astype(str).str.strip()
+    date=df["date"].astype(str).str.strip()
 
-    df["name"] = df["name"].astype(str).str.strip()
-    df["email"] = df["email"].astype(str).str.strip()
-    # Return a plain dictionary so callers can use xl_data["Name"] and
-    # xl_data["Email"] directly.
+    
   
     return {
-        "Name": df["name"].tolist(),
-        "Email": df["email"].tolist(),
         
+
+        "ID": id.tolist(),
+        "Name": name.tolist(),  
+        "Email": email.tolist(),
+        "Date": date.tolist(),
     }
